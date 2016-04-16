@@ -17,12 +17,12 @@ class ChessBoard
 
     public function add(Pawn $pawn, $_xCoordinate, $_yCoordinate, PieceColorEnum $pieceColor)
     {
-        throw new \ErrorException("Need to implement ChessBoard.add() ");
+        $pawn->setXCoordinate($_xCoordinate);
     }
 
     /** @return: boolean */
     public function isLegalBoardPosition($_xCoordinate, $_yCoordinate)
     {
-        throw new \ErrorException("Need to implement ChessBoard.isLegalBoardPosition()");
+        true;
     }
 }
