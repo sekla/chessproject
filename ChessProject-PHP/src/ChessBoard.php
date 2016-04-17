@@ -13,22 +13,21 @@ class ChessBoard
 	const POSITION_FREE = 0;
 	const POSITION_OCCUPIED = 1;
 	
-	/** @var int */
-	private $_blackPawnsNum;
-	/** @var int */
-	private $_whitePawnsNum;
+	/** array which stores current number of pawns on the board, separately for each color */
+	private $_pawnsCount;
 
     public function __construct()
     {
         $this->_fields = array_fill(0, self::MAX_BOARD_WIDTH, array_fill(0, self::MAX_BOARD_HEIGHT, self::POSITION_FREE));
-		$this->_blackPawnsNum = 0;
-		$this->_whitePawnsNum = 0;
+		$this->_pawnsCount[PieceColorEnum::WHITE()->toString()] = 0;
+		$this->_pawnsCount[PieceColorEnum::BLACK()->toString()] = 0;
     }
 
     public function add(Pawn $pawn, $xCoordinate, $yCoordinate, PieceColorEnum $pieceColor)
-    {		
+    {
 		$pawn->setPieceColor($pieceColor);
 		$pawn->setChessBoard($this);
+        
 		if (self::isPieceLimitReached($pawn)
 			or !self::isLegalBoardPosition($xCoordinate, $yCoordinate)
 			or self::isPositionOccupied($xCoordinate, $yCoordinate))
@@ -41,14 +40,7 @@ class ChessBoard
 		$pawn->setXCoordinate($xCoordinate);
 		$pawn->setYCoordinate($yCoordinate);
 		$this->_fields[$xCoordinate][$yCoordinate] = self::POSITION_OCCUPIED;
-		if(PieceColorEnum::WHITE() == $pieceColor)
-		{
-			$this->_whitePawnsNum++;
-		}
-		else
-		{
-			$this->_blackPawnsNum++;
-		}
+		$this->_pawnsCount[$pawn->getPieceColor()->toString()]++;
     }
 
     /** @return: boolean */
@@ -88,16 +80,7 @@ class ChessBoard
 		{
 			throw new \Exception("Need to implement handling other pieces types in ChessBoard.isPieceLimitReached");
 		}
-
-		if(PieceColorEnum::WHITE() == $piece->getPieceColor() and $this->_whitePawnsNum >= $piece->oneColorPieceQuantityLimit())
-		{
-			return true;
-		}
-		else if ($this->_blackPawnsNum >= $piece->oneColorPieceQuantityLimit())
-		{
-			return true;
-		}
-		
-		return false;
+        
+		return $this->_pawnsCount[$piece->getPieceColor()->toString()] >= $piece->oneColorPieceQuantityLimit();
     }
 }
