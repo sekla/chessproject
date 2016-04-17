@@ -26,8 +26,7 @@ class ChessBoard
     public function add(Pawn $pawn, $xCoordinate, $yCoordinate, PieceColorEnum $pieceColor)
     {
 		$pawn->setPieceColor($pieceColor);
-		$pawn->setChessBoard($this);
-        
+
 		if (self::isPieceLimitReached($pawn)
 			or !self::isLegalBoardPosition($xCoordinate, $yCoordinate)
 			or self::isPositionOccupied($xCoordinate, $yCoordinate))
@@ -37,6 +36,7 @@ class ChessBoard
 			return;
 		}
 
+        $pawn->setChessBoard($this);
 		$pawn->setXCoordinate($xCoordinate);
 		$pawn->setYCoordinate($yCoordinate);
 		$this->_fields[$xCoordinate][$yCoordinate] = self::POSITION_OCCUPIED;
