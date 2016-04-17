@@ -8,7 +8,10 @@ class ChessBoard
     const MAX_BOARD_WIDTH = 7;
     const MAX_BOARD_HEIGHT = 7;
 
+	/** map of free and occupied positions: 0 = free; 1 = occupied */
     private $_pieces;
+	const POSITION_FREE = 0;
+	const POSITION_OCCUPIED = 1;
 	
 	/** @var int */
 	private $_blackPawnsNum;
@@ -17,7 +20,7 @@ class ChessBoard
 
     public function __construct()
     {
-        $this->_pieces = array_fill(0, self::MAX_BOARD_WIDTH, array_fill(0, self::MAX_BOARD_HEIGHT, 0));
+        $this->_pieces = array_fill(0, self::MAX_BOARD_WIDTH, array_fill(0, self::MAX_BOARD_HEIGHT, self::POSITION_FREE));
 		$this->_blackPawnsNum = 0;
 		$this->_whitePawnsNum = 0;
     }
@@ -25,7 +28,9 @@ class ChessBoard
     public function add(Pawn $pawn, $_xCoordinate, $_yCoordinate, PieceColorEnum $pieceColor)
     {
 		$pawn->setPieceColor($pieceColor);
-		if (self::isPawnLimitReached($pieceColor) or !self::isLegalBoardPosition($_xCoordinate, $_yCoordinate))
+		if (self::isPawnsLimitReached($pieceColor)
+			or !self::isLegalBoardPosition($_xCoordinate, $_yCoordinate)
+			or self::isPositionOccupied($_xCoordinate, $_yCoordinate))
 		{
 			$pawn->setXCoordinate(-1);
 			$pawn->setYCoordinate(-1);
@@ -52,13 +57,17 @@ class ChessBoard
 			return false;
 		}
 		
-		/** @todo check if positions is not already occupied */
-		
 		return true;
     }
 	
 	/** @return: boolean */
-    public function isPawnLimitReached(PieceColorEnum $pieceColor)
+    public function isPositionOccupied($_xCoordinate, $_yCoordinate)
+    {
+		return self::POSITION_OCCUPIED == $this->_pieces[$_xCoordinate][$_yCoordinate];
+    }
+	
+	/** @return: boolean */
+    private function isPawnsLimitReached(PieceColorEnum $pieceColor)
     {
         if(PieceColorEnum::WHITE() == $pieceColor and $this->_whitePawnsNum >= Pawn::EACH_COLOR_PAWNS_LIMIT)
 		{
