@@ -25,11 +25,11 @@ class ChessBoard
 		$this->_whitePawnsNum = 0;
     }
 
-    public function add(Pawn $pawn, $_xCoordinate, $_yCoordinate, PieceColorEnum $pieceColor)
+    public function add(Pawn $pawn, $xCoordinate, $yCoordinate, PieceColorEnum $pieceColor)
     {
 		if (self::isPawnsLimitReached($pieceColor)
-			or !self::isLegalBoardPosition($_xCoordinate, $_yCoordinate)
-			or self::isPositionOccupied($_xCoordinate, $_yCoordinate))
+			or !self::isLegalBoardPosition($xCoordinate, $yCoordinate)
+			or self::isPositionOccupied($xCoordinate, $yCoordinate))
 		{
 			$pawn->setXCoordinate(-1);
 			$pawn->setYCoordinate(-1);
@@ -38,9 +38,9 @@ class ChessBoard
 		
 		$pawn->setPieceColor($pieceColor);
 		$pawn->setChessBoard($this);
-		$pawn->setXCoordinate($_xCoordinate);
-		$pawn->setYCoordinate($_yCoordinate);
-		$this->_fields[$_xCoordinate][$_yCoordinate] = self::POSITION_OCCUPIED;
+		$pawn->setXCoordinate($xCoordinate);
+		$pawn->setYCoordinate($yCoordinate);
+		$this->_fields[$xCoordinate][$yCoordinate] = self::POSITION_OCCUPIED;
 		if(PieceColorEnum::WHITE() == $pieceColor)
 		{
 			$this->_whitePawnsNum++;
@@ -52,9 +52,9 @@ class ChessBoard
     }
 
     /** @return: boolean */
-    public function isLegalBoardPosition($_xCoordinate, $_yCoordinate)
+    public function isLegalBoardPosition($xCoordinate, $yCoordinate)
     {
-		if ($_xCoordinate >= self::MAX_BOARD_WIDTH or $_xCoordinate < 0 or $_yCoordinate >= self::MAX_BOARD_HEIGHT or $_yCoordinate < 0)
+		if ($xCoordinate >= self::MAX_BOARD_WIDTH or $xCoordinate < 0 or $yCoordinate >= self::MAX_BOARD_HEIGHT or $yCoordinate < 0)
 		{
 			return false;
 		}
@@ -63,9 +63,9 @@ class ChessBoard
     }
 	
 	/** @return: boolean */
-    public function isPositionOccupied($_xCoordinate, $_yCoordinate)
+    public function isPositionOccupied($xCoordinate, $yCoordinate)
     {
-		return self::POSITION_OCCUPIED == $this->_fields[$_xCoordinate][$_yCoordinate];
+		return self::POSITION_OCCUPIED == $this->_fields[$xCoordinate][$yCoordinate];
     }
 	
 	/** validity of this move is not checked here */
