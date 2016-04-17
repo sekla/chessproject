@@ -39,6 +39,7 @@ class ChessBoard
 		
 		$pawn->setXCoordinate($_xCoordinate);
 		$pawn->setYCoordinate($_yCoordinate);
+		$this->_pieces[$_xCoordinate][$_yCoordinate] = self::POSITION_OCCUPIED;
 		if(PieceColorEnum::WHITE() == $pieceColor)
 		{
 			$this->_whitePawnsNum++;
