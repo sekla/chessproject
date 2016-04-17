@@ -25,7 +25,7 @@ class Pawn
         $this->_pieceColorEnum = $pieceColorEnum;
     }
 
-    public function getChesssBoard()
+    public function getChessBoard()
     {
         return $this->_chessBoard;
     }
@@ -76,14 +76,14 @@ class Pawn
 			throw new \Exception("Need to implement movement CAPTURE in Pawn.move()");
 		}
 		
-		if (!$this->getChesssBoard()->isLegalBoardPosition($newX, $newY)
-			or $this->getChesssBoard()->isPositionOccupied($newX, $newY)
+		if (!$this->getChessBoard()->isLegalBoardPosition($newX, $newY)
+			or $this->getChessBoard()->isPositionOccupied($newX, $newY)
 		    or !$this->checkMoveValidity($movementTypeEnum, $newX, $newY))
 		{
 			return;
 		}
 
-		$this->getChesssBoard()->moveOccupiedPosition($this->getXCoordinate(), $this->getYCoordinate(), $newX, $newY);
+		$this->getChessBoard()->moveOccupiedPosition($this->getXCoordinate(), $this->getYCoordinate(), $newX, $newY);
 		$this->setXCoordinate($newX);
 		$this->setYCoordinate($newY);
     }
