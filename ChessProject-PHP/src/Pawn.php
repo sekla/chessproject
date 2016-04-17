@@ -15,7 +15,10 @@ class Pawn
     /** @var  int */
     private $_yCoordinate;
 
-    public function __construct(PieceColorEnum $pieceColorEnum)
+	/** @todo constructor should set color and coordinates or nothing. Now setting color is done here and in ChessBoard.add method (where can be also changed)
+	 *	I cannot fix it now, because I should not change acceptance tests.
+	 */
+    public function __construct(PieceColorEnum $pieceColorEnum) 
     {
         $this->_pieceColorEnum = $pieceColorEnum;
     }
