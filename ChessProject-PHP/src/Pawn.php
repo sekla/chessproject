@@ -5,6 +5,8 @@ namespace LogicNow;
 
 class Pawn
 {
+	/** @todo this should be always the same as ChessBoard::MAX_BOARD_WIDTH. Need to think, how to make sure about it automatically */
+	const EACH_COLOR_PAWNS_LIMIT = 7;
 
     /** @var PieceColorEnum */
     private $_pieceColorEnum;
@@ -81,7 +83,7 @@ class Pawn
     {
         $result = "Current X: " . $this->_xCoordinate . PHP_EOL;
         $result .= "Current Y: " . $this->_yCoordinate . PHP_EOL;
-        $result .= "Piece Color: " . $this->_pieceColorEnum;
+        $result .= "Piece Color: " . $this->_pieceColorEnum->toString();
         return $result;
     }
 

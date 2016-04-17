@@ -14,6 +14,12 @@ class PieceColorEnum
     {
         $this->_id = $_id;
     }
+	
+	public function toString()
+	{
+		/** @todo output WHITE and BLACK here instead of id */
+		return $this->_id;
+	}
 
     /** @return: PieceColorEnum */
     public static function WHITE()
@@ -40,5 +46,4 @@ class PieceColorEnum
         self::$_white = new PieceColorEnum(1);
         self::$_black = new PieceColorEnum(2);
     }
-
 }
