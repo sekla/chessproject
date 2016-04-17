@@ -33,7 +33,7 @@ class Pawn extends AbstractPiece
 	
 	public function oneColorPieceQuantityLimit()
 	{
-		return ChessBoard::MAX_BOARD_WIDTH;
+		return ChessBoard::MAX_BOARD_WIDTH+1;
 	}
 	
 	/** @return: boolean */

@@ -4,8 +4,9 @@ namespace LogicNow;
 
 class ChessBoard
 {
-
+    /** treated as max X index */
     const MAX_BOARD_WIDTH = 7;
+    /** treated as max Y index */
     const MAX_BOARD_HEIGHT = 7;
 
 	/** map of free and occupied positions: 0 = free; 1 = occupied */
@@ -18,7 +19,7 @@ class ChessBoard
 
     public function __construct()
     {
-        $this->_fields = array_fill(0, self::MAX_BOARD_WIDTH, array_fill(0, self::MAX_BOARD_HEIGHT, self::POSITION_FREE));
+        $this->_fields = array_fill(0, self::MAX_BOARD_WIDTH+1, array_fill(0, self::MAX_BOARD_HEIGHT+1, self::POSITION_FREE));
 		$this->_pawnsCount[PieceColorEnum::WHITE()->toString()] = 0;
 		$this->_pawnsCount[PieceColorEnum::BLACK()->toString()] = 0;
     }
@@ -46,7 +47,7 @@ class ChessBoard
     /** @return: boolean */
     public function isLegalBoardPosition($xCoordinate, $yCoordinate)
     {
-		if ($xCoordinate >= self::MAX_BOARD_WIDTH or $xCoordinate < 0 or $yCoordinate >= self::MAX_BOARD_HEIGHT or $yCoordinate < 0)
+		if ($xCoordinate > self::MAX_BOARD_WIDTH or $xCoordinate < 0 or $yCoordinate > self::MAX_BOARD_HEIGHT or $yCoordinate < 0)
 		{
 			return false;
 		}
