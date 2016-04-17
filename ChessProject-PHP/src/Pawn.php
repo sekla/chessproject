@@ -73,6 +73,7 @@ class Pawn
     {
 		if(MovementTypeEnum::CAPTURE() == $movementTypeEnum)
 		{
+			/** @todo remember to use ChessBoard.freeOccupiedPosition for En passant ("in passing") capture */
 			throw new \Exception("Need to implement movement CAPTURE in Pawn.move()");
 		}
 		
@@ -80,6 +81,7 @@ class Pawn
 			or $this->getChessBoard()->isPositionOccupied($newX, $newY)
 		    or !$this->checkMoveValidity($movementTypeEnum, $newX, $newY))
 		{
+			/** do nothing if move is not valid */
 			return;
 		}
 
@@ -98,10 +100,29 @@ class Pawn
 	{
 		if(MovementTypeEnum::CAPTURE() == $movementTypeEnum)
 		{
-			throw new \Exception("Need to implement movement CAPTURE in Pawn.checkMoveValidity()");
+			if (!$this->getChessBoard()->isPositionOccupied($newX, $newY))
+			{
+				return false;
+			}
+			
+			/** @todo check if a piece on ($newX, $newY) has opposite color. */
+			
+			if ($this->getPieceColor() == PieceColorEnum::WHITE())
+			{
+				/** whites go up the board */
+				$isUpRightCapture = ($newX == ($this->getXCoordinate() + 1) and $newY == ($this->getYCoordinate() + 1));
+				$isUpLeftCapture = ($newX == ($this->getXCoordinate() - 1) and $newY == ($this->getYCoordinate() + 1));
+				return $isUpRightCapture or isUpLeftCapture;
+			}
+			
+			/** blacks go down the board */
+			$isDownRightCapture = ($newX == ($this->getXCoordinate() + 1) and $newY == ($this->getYCoordinate() - 1));
+			$isDownLeftCapture = ($newX == ($this->getXCoordinate() - 1) and $newY == ($this->getYCoordinate() - 1));
+			return $isDownRightCapture or isDownLeftCapture;
 		}
 		
-		/** the only valid move for pawns is moving 1 space forward (toward opponents board side) */
+		/** for now the only valid move for pawns is moving 1 space forward (toward opponents board side) */
+		/** @todo remember that pawn can move also 2 spaces on its first move. Need to be implemented! */
 		if ($this->getPieceColor() == PieceColorEnum::WHITE())
 		{
 			/** whites go up the board */

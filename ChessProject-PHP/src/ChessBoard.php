@@ -71,8 +71,14 @@ class ChessBoard
 	/** validity of this move is not checked here */
 	public function moveOccupiedPosition($xCoordinateOld, $yCoordinateOld, $xCoordinateNew, $yCoordinateNew)
 	{
-		$this->_fields[$xCoordinateOld][$yCoordinateOld] = self::POSITION_FREE;
+		/** freeOccupiedPosition is introduced, to make implementation of En passant ("in passing") capture easier */
+		$this->freeOccupiedPosition($xCoordinateOld, $yCoordinateOld);
 		$this->_fields[$xCoordinateNew][$yCoordinateNew] = self::POSITION_OCCUPIED;
+	}
+	
+	public function freeOccupiedPosition($xCoordinate, $yCoordinate)
+	{
+		$this->_fields[$xCoordinate][$yCoordinate] = self::POSITION_FREE;
 	}
 	
 	/** @return: boolean */
