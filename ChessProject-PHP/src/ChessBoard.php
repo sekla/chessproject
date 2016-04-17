@@ -26,8 +26,10 @@ class ChessBoard
     }
 
     public function add(Pawn $pawn, $xCoordinate, $yCoordinate, PieceColorEnum $pieceColor)
-    {
-		if (self::isPawnsLimitReached($pieceColor)
+    {		
+		$pawn->setPieceColor($pieceColor);
+		$pawn->setChessBoard($this);
+		if (self::isPieceLimitReached($pawn)
 			or !self::isLegalBoardPosition($xCoordinate, $yCoordinate)
 			or self::isPositionOccupied($xCoordinate, $yCoordinate))
 		{
@@ -35,9 +37,7 @@ class ChessBoard
 			$pawn->setYCoordinate(-1);
 			return;
 		}
-		
-		$pawn->setPieceColor($pieceColor);
-		$pawn->setChessBoard($this);
+
 		$pawn->setXCoordinate($xCoordinate);
 		$pawn->setYCoordinate($yCoordinate);
 		$this->_fields[$xCoordinate][$yCoordinate] = self::POSITION_OCCUPIED;
@@ -82,13 +82,18 @@ class ChessBoard
 	}
 	
 	/** @return: boolean */
-    private function isPawnsLimitReached(PieceColorEnum $pieceColor)
+    private function isPieceLimitReached(AbstractPiece $piece)
     {
-        if(PieceColorEnum::WHITE() == $pieceColor and $this->_whitePawnsNum >= Pawn::EACH_COLOR_PAWNS_LIMIT)
+		if (!$piece instanceof Pawn)
+		{
+			throw new \Exception("Need to implement handling other pieces types in ChessBoard.isPieceLimitReached");
+		}
+
+		if(PieceColorEnum::WHITE() == $piece->getPieceColor() and $this->_whitePawnsNum >= $piece->oneColorPieceQuantityLimit())
 		{
 			return true;
 		}
-		else if ($this->_blackPawnsNum >= Pawn::EACH_COLOR_PAWNS_LIMIT)
+		else if ($this->_blackPawnsNum >= $piece->oneColorPieceQuantityLimit())
 		{
 			return true;
 		}
