@@ -68,6 +68,13 @@ class ChessBoard
 		return self::POSITION_OCCUPIED == $this->_fields[$_xCoordinate][$_yCoordinate];
     }
 	
+	/** validity of this move is not checked here */
+	public function moveOccupiedPosition($xCoordinateOld, $yCoordinateOld, $xCoordinateNew, $yCoordinateNew)
+	{
+		$this->_fields[$xCoordinateOld][$yCoordinateOld] = self::POSITION_FREE;
+		$this->_fields[$xCoordinateNew][$yCoordinateNew] = self::POSITION_OCCUPIED;
+	}
+	
 	/** @return: boolean */
     private function isPawnsLimitReached(PieceColorEnum $pieceColor)
     {

@@ -82,11 +82,10 @@ class Pawn
 		{
 			return;
 		}
-		
+
+		$this->getChesssBoard()->moveOccupiedPosition($this->getXCoordinate(), $this->getYCoordinate(), $newX, $newY);
 		$this->setXCoordinate($newX);
 		$this->setYCoordinate($newY);
-		
-		/** @todo change position in ChessBoard._fields */
     }
 
     public function toString()
@@ -94,6 +93,7 @@ class Pawn
         return $this->currentPositionAsString();
     }
 	
+	/** @return: boolean */
 	private function checkMoveValidity(MovementTypeEnum $movementTypeEnum, $newX, $newY)
 	{
 		if(MovementTypeEnum::CAPTURE() == $movementTypeEnum)
