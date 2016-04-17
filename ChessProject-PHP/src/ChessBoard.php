@@ -9,7 +9,7 @@ class ChessBoard
     const MAX_BOARD_HEIGHT = 7;
 
 	/** map of free and occupied positions: 0 = free; 1 = occupied */
-    private $_pieces;
+    private $_fields;
 	const POSITION_FREE = 0;
 	const POSITION_OCCUPIED = 1;
 	
@@ -20,14 +20,13 @@ class ChessBoard
 
     public function __construct()
     {
-        $this->_pieces = array_fill(0, self::MAX_BOARD_WIDTH, array_fill(0, self::MAX_BOARD_HEIGHT, self::POSITION_FREE));
+        $this->_fields = array_fill(0, self::MAX_BOARD_WIDTH, array_fill(0, self::MAX_BOARD_HEIGHT, self::POSITION_FREE));
 		$this->_blackPawnsNum = 0;
 		$this->_whitePawnsNum = 0;
     }
 
     public function add(Pawn $pawn, $_xCoordinate, $_yCoordinate, PieceColorEnum $pieceColor)
     {
-		$pawn->setPieceColor($pieceColor);
 		if (self::isPawnsLimitReached($pieceColor)
 			or !self::isLegalBoardPosition($_xCoordinate, $_yCoordinate)
 			or self::isPositionOccupied($_xCoordinate, $_yCoordinate))
@@ -37,9 +36,11 @@ class ChessBoard
 			return;
 		}
 		
+		$pawn->setPieceColor($pieceColor);
+		$pawn->setChessBoard($this);
 		$pawn->setXCoordinate($_xCoordinate);
 		$pawn->setYCoordinate($_yCoordinate);
-		$this->_pieces[$_xCoordinate][$_yCoordinate] = self::POSITION_OCCUPIED;
+		$this->_fields[$_xCoordinate][$_yCoordinate] = self::POSITION_OCCUPIED;
 		if(PieceColorEnum::WHITE() == $pieceColor)
 		{
 			$this->_whitePawnsNum++;
@@ -64,7 +65,7 @@ class ChessBoard
 	/** @return: boolean */
     public function isPositionOccupied($_xCoordinate, $_yCoordinate)
     {
-		return self::POSITION_OCCUPIED == $this->_pieces[$_xCoordinate][$_yCoordinate];
+		return self::POSITION_OCCUPIED == $this->_fields[$_xCoordinate][$_yCoordinate];
     }
 	
 	/** @return: boolean */

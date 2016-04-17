@@ -71,7 +71,21 @@ class Pawn
 
     public function move(MovementTypeEnum $movementTypeEnum, $newX, $newY)
     {
-        throw new \Exception("Need to implement Pawn.Move()");
+		if(MovementTypeEnum::CAPTURE() == $movementTypeEnum)
+		{
+			throw new \Exception("Need to implement movement CAPTURE in Pawn.move()");
+		}
+		
+		/** @todo check if move is valid for pawns */
+		if (!$this->getChesssBoard()->isLegalBoardPosition($newX, $newY) or $this->getChesssBoard()->isPositionOccupied($newX, $newY))
+		{
+			return;
+		}
+		
+		$this->setXCoordinate($newX);
+		$this->setYCoordinate($newY);
+		
+		/** @todo change position in ChessBoard._fields */
     }
 
     public function toString()
