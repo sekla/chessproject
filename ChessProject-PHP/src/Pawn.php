@@ -76,7 +76,6 @@ class Pawn
 			throw new \Exception("Need to implement movement CAPTURE in Pawn.move()");
 		}
 		
-		/** @todo check if move is valid for pawns */
 		if (!$this->getChesssBoard()->isLegalBoardPosition($newX, $newY)
 			or $this->getChesssBoard()->isPositionOccupied($newX, $newY)
 		    or !$this->checkMoveValidity($movementTypeEnum, $newX, $newY))
