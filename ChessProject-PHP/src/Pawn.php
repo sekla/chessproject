@@ -77,7 +77,9 @@ class Pawn
 		}
 		
 		/** @todo check if move is valid for pawns */
-		if (!$this->getChesssBoard()->isLegalBoardPosition($newX, $newY) or $this->getChesssBoard()->isPositionOccupied($newX, $newY))
+		if (!$this->getChesssBoard()->isLegalBoardPosition($newX, $newY)
+			or $this->getChesssBoard()->isPositionOccupied($newX, $newY)
+		    or !$this->checkMoveValidity($movementTypeEnum, $newX, $newY))
 		{
 			return;
 		}
@@ -92,6 +94,24 @@ class Pawn
     {
         return $this->currentPositionAsString();
     }
+	
+	private function checkMoveValidity(MovementTypeEnum $movementTypeEnum, $newX, $newY)
+	{
+		if(MovementTypeEnum::CAPTURE() == $movementTypeEnum)
+		{
+			throw new \Exception("Need to implement movement CAPTURE in Pawn.checkMoveValidity()");
+		}
+		
+		/** the only valid move for pawns is moving 1 space forward (toward opponents board side) */
+		if ($this->getPieceColor() == PieceColorEnum::WHITE())
+		{
+			/** whites go up the board */
+			return ($newX == $this->getXCoordinate() and $newY == ($this->getYCoordinate() + 1));
+		}
+		
+		/** blacks go down the board */
+		return ($newX == $this->getXCoordinate() and $newY == ($this->getYCoordinate() - 1));
+	}
 
     protected function currentPositionAsString()
     {
