@@ -71,5 +71,13 @@ class ChessBoardTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
+    
+    public function testCheck_Add_Stores_Piece_On_ChessBoard()
+	{
+		$piece = new Pawn(PieceColorEnum::BLACK());
+        $this->_testSubject->add($piece, 1, 4, PieceColorEnum::BLACK());
+        $resultPiece = $this->_testSubject->getPieceOnPosition(1, 4);
+		$this->assertEquals($resultPiece, $piece);
+    }
 
 }

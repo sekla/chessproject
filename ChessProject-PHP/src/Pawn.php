@@ -38,7 +38,8 @@ class Pawn extends AbstractPiece
 	
 	/** @return: boolean */
 	private function checkMoveValidity(MovementTypeEnum $movementTypeEnum, $newX, $newY)
-	{
+	{ 
+        /**  @todo validation of CAPTURE move was never tested. It will be tested when CAPTURE move will be implemented. */
 		if(MovementTypeEnum::CAPTURE() == $movementTypeEnum)
 		{
 			if (!$this->getChessBoard()->isPositionOccupied($newX, $newY))
