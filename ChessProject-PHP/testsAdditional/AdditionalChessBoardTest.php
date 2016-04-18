@@ -72,6 +72,30 @@ class ChessBoardTest extends \PHPUnit_Framework_TestCase
         }
     }
     
+    public function testCheck_Different_Pieces_Limit()
+    {
+        /** Pawns */
+        $pawn = new Pawn(PieceColorEnum::BLACK());
+        $pawnsLimit = $pawn->oneColorPieceQuantityLimit();
+        
+        for ($i = 0; ; $i++)
+        {
+            $pawn = new Pawn(PieceColorEnum::BLACK());
+            if ($i == $pawnsLimit)
+            {
+                $this->_testSubject->add($pawn, 1, 1, PieceColorEnum::BLACK());
+                $this->assertEquals(-1, $pawn->getXCoordinate());
+                $this->assertEquals(-1, $pawn->getYCoordinate());
+                break;
+            }
+            $this->_testSubject->add($pawn, 0, $i, PieceColorEnum::BLACK());
+            $this->assertEquals(0, $pawn->getXCoordinate());
+            $this->assertEquals($i, $pawn->getYCoordinate());
+        }
+        
+        /** @todo create tests for other pieces types, when they will be implemented */
+    }
+    
     public function testCheck_Add_Stores_Piece_On_ChessBoard()
 	{
 		$piece = new Pawn(PieceColorEnum::BLACK());
